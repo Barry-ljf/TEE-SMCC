@@ -1,0 +1,117 @@
+// msg.proto
+syntax = "proto3";
+package smcc.rpc;
+
+service SMCCService {
+  rpc initJob(InitJobRequest) returns (InitJobResponse);
+  rpc requestPublicKey(PubKeyRequest) returns (PubKeyResponse);	
+  rpc uploadRSS(stream RssRequest) returns (stream RssResponse);	
+  rpc sendMsg(MsgRequest) returns (MsgResponse);
+  rpc sendSeed(SeedRequest) returns (SeedResponse);
+  rpc sendDHParamA(DHParamARequest) returns (DHParamAResponse);
+  rpc sendDHParamB(DHParamBRequest) returns (DHParamBResponse);
+  rpc destroyJob(DestroyJobRequest) returns (DestroyJobResponse);
+}
+
+message InitJobRequest {
+	string jobid=1;
+}
+
+message InitJobResponse {
+  bool error = 1;
+	string msg = 2;
+}
+
+message PubKeyRequest {
+	string jobid = 1;
+}
+
+message PubKeyResponse {
+	string pubkey_e = 1;
+  string pubkey_n = 2;
+  bool error = 3;
+	string msg = 4;
+}
+
+message SeedRequest {
+	string jobid = 1;
+	uint64 seed = 2;
+}
+ 
+message SeedResponse {
+  bool error = 1;
+  string msg = 2;
+}
+
+message DHParamARequest {
+	string jobid = 1;
+	string g = 2;
+	string a = 3;
+	string p = 4;
+}
+
+message DHParamAResponse {
+  bool error = 1;
+  string msg = 2;
+}
+
+message DHParamBRequest {
+	string jobid = 1;
+	string b = 2;
+}
+
+message DHParamBResponse {
+  bool error = 1;
+  string msg = 2;
+}
+
+message RssRequest {
+	string jobid = 1;
+	string dataid = 2;
+	repeated string dataval = 3;
+}
+
+message RssResponse {
+	uint64 status = 1;
+	string msg= 2;
+}
+
+message DestroyJobRequest {
+  string jobid = 1;
+};
+
+message DestroyJobResponse {
+  bool error = 1;
+  string msg = 2;
+};
+
+message i128 {
+	sint64 int128_high = 1;
+	sint64 int128_low = 2;
+}
+
+message Datasets {
+	bytes jobid = 1;
+	bytes dataid = 2;
+	uint64 datalength = 3;
+	repeated i128 dataval = 4;
+}
+
+message Express {
+	string jobid = 1;
+	string expr_val = 2;
+}
+
+message MsgRequest{
+	uint64 type = 1;
+	oneof Msg {
+		uint64 seed = 2;
+		Express express = 3;
+		Datasets datasets = 4;
+	}
+}
+
+message MsgResponse{
+	bool error = 1;
+  string msg = 2;
+}

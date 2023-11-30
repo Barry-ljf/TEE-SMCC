@@ -1,0 +1,15 @@
+I20231120 20:42:03.865981 3085485 main.cc:40] Start party 2.
+I20231120 20:42:08.665055 3085508 server.cc:40] Init job, jobid testjob.
+I20231120 20:42:08.796152 3085570 management.cc:103] Run task InitOpenssl, jobid testjob.
+I20231120 20:42:08.797057 3085570 management.cc:114] Init openssl library finish, jobid testjob.
+I20231120 20:42:08.797219 3085570 management.cc:103] Run task GenRSAKey, jobid testjob.
+I20231120 20:42:08.808214 3085570 management.cc:129] Generate RSA public key finish, jobid testjob.
+I20231120 20:42:08.808462 3085570 management.cc:103] Run task InitSeed, jobid testjob.
+I20231120 20:42:08.808555 3085570 management.cc:155] Encrypted seed sending to next party is 12701336577205572180, jobid testjob.
+send_seed: 12701336577205572180
+send_seed: 16380740732394291279
+I20231120 20:42:08.817317 3085567 server.cc:229] RPC receive encrypted seed, jobid testjob.
+[0;31mE20231120 20:42:28.813269 3085570 client.h:40] Send seed to peer failed.
+[m[0;31mE20231120 20:42:28.814102 3085570 management.cc:163] Send encrypted seed to 127.0.0.1:5000 failed, jobid testjob.
+[m[0;31mE20231120 20:42:28.814361 3085508 server.cc:119] Task InitSeed failed, Error: Send seed to peer failed.
+[m

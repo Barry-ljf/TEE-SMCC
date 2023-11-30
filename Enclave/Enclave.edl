@@ -1,0 +1,44 @@
+
+enclave {
+    from "sgx_pthread.edl" import *;
+    from "sgx_tstdc.edl" import *;
+
+    struct si128 {
+        __int128_t mData[2];
+    };
+
+    trusted {
+        public void ecall_init_openssl();
+        public void ecall_gen_seed();
+        public void ecall_get_nextSeed([out, size=output_size] uint64_t *ret_str,size_t output_size);
+        public void ecall_set_prevSeed(uint64_t seed);
+        public void ecall_AES_generate(uint64_t buffSize);
+        public __int128_t ecall_get_share(__int128_t val); 
+        public si128 i128_add(si128 A, si128 B);
+        public __int128_t i128_mul(si128 A, si128 B);
+        public __int128_t reveal(__int128_t A, __int128_t B, __int128_t C);
+        public void ecall_dh_stage_1();
+        public void ecall_dh_stage_1_parametersize([out]size_t* size_A,[out]size_t* size_p,[out]size_t* size_g);
+        public void ecall_dh_stage_1_getparameter([out,size=size_A]char* str_A,[out,size=size_p]char*str_p,[out,size=size_g]char*str_g,size_t size_A,size_t size_p,size_t size_g);
+        public void ecall_dh_stage_2([in,size=size_A]char* str_A,[in,size=size_p]char*str_p,[in,size=size_g]char*str_g,size_t size_A,size_t size_p,size_t size_g);
+        public void ecall_dh_stage_2_Bsize([out]size_t *size_B);
+        public void ecall_dh_stage_2_getB([out,size=size_B]char* str_B,size_t size_B);
+        public void ecall_dh_stage_2_getkeysize([out]size_t *size_key);
+        public void ecall_dh_stage_2_getkey([out,size=size_key]char* str_key,size_t size_key);
+        public void ecall_dh_stage_3([in,size=size_B]char* str_B,size_t size_B);
+        public void ecall_dh_stage_3_getkeysize([out]size_t *size_key);
+        public void ecall_dh_stage_3_getkey([out,size=size_key]char* str_key,size_t size_key);
+        public void ecall_rsa_key_gen();
+        public void ecall_get_pubkey_size([out] size_t *size_n, [out] size_t *size_e);
+        public void ecall_get_pubkey([out,size=size_n]char* str_n,[out,size=size_e]char*str_e,size_t size_n,size_t size_e);
+        public void ecall_rsa_enc([in,size=size_n]char*str_n,[in,size=size_e]char*str_e,size_t size_n,size_t size_e,[in,size=size_ptxt]const char*ptxt,size_t size_ptxt);
+        public void ecall_get_ctxt([out,size=size_ctxt]unsigned char*ctxt,size_t size_ctxt);
+        public void ecall_rsa_ctxt_in([in,size=size_ctxt_part]unsigned char* ctxt_part,size_t size_ctxt_part);
+        public void ecall_rsa_dec();
+    };
+
+    untrusted {
+        void ocall_print_string([in, string] const char *str);
+    };
+};
+ 
